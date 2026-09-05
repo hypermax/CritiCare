@@ -50,13 +50,19 @@
                             </span>
                         </label>
 
-                        <label class="flex items-start p-4 border rounded-lg cursor-pointer hover:bg-red-50 has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
-                            <input type="radio" name="outcome" value="deceased" class="mt-1" @checked(old('outcome') === 'deceased') required>
-                            <span class="ml-3">
-                                <span class="block font-semibold text-red-700">Décédé</span>
-                                <span class="block text-sm text-gray-500">Décès du patient pendant son séjour en réanimation.</span>
-                            </span>
-                        </label>
+                        @if (auth()->user()->hasAnyRole(['ADMIN', 'SENIOR']))
+                            <label class="flex items-start p-4 border rounded-lg cursor-pointer hover:bg-red-50 has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                <input type="radio" name="outcome" value="deceased" class="mt-1" @checked(old('outcome') === 'deceased') required>
+                                <span class="ml-3">
+                                    <span class="block font-semibold text-red-700">Décédé</span>
+                                    <span class="block text-sm text-gray-500">Décès du patient pendant son séjour en réanimation.</span>
+                                </span>
+                            </label>
+                        @else
+                            <div class="p-4 border border-dashed rounded-lg text-sm text-gray-500">
+                                La constatation de décès est réservée au médecin senior.
+                            </div>
+                        @endif
                         <x-input-error :messages="$errors->get('outcome')" class="mt-1" />
                     </div>
 
@@ -64,10 +70,17 @@
                         <x-input-label for="discharge_destination" value="Destination (obligatoire si transfert)" />
                         <select id="discharge_destination" name="discharge_destination" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                             <option value="">— Choisir —</option>
-                            <option value="Médecine" @selected(old('discharge_destination') === 'Médecine')>Médecine</option>
-                            <option value="Chirurgie" @selected(old('discharge_destination') === 'Chirurgie')>Chirurgie</option>
                             <option value="Cardiologie" @selected(old('discharge_destination') === 'Cardiologie')>Cardiologie</option>
+                            <option value="Gynécologie" @selected(old('discharge_destination') === 'Gynécologie')>Gynécologie</option>
+                            <option value="Hématologie" @selected(old('discharge_destination') === 'Hématologie')>Hématologie</option>
+                            <option value="Maladies infectieuses" @selected(old('discharge_destination') === 'Maladies infectieuses')>Maladies infectieuses</option>
+                            <option value="Médecine interne" @selected(old('discharge_destination') === 'Médecine interne')>Médecine interne</option>
+                            <option value="Médecine légale" @selected(old('discharge_destination') === 'Médecine légale')>Médecine légale</option>
+                            <option value="Néonatologie" @selected(old('discharge_destination') === 'Néonatologie')>Néonatologie</option>
                             <option value="Neurologie" @selected(old('discharge_destination') === 'Neurologie')>Neurologie</option>
+                            <option value="Pédiatrie" @selected(old('discharge_destination') === 'Pédiatrie')>Pédiatrie</option>
+                            <option value="Pneumologie" @selected(old('discharge_destination') === 'Pneumologie')>Pneumologie</option>
+                            <option value="Urgences" @selected(old('discharge_destination') === 'Urgences')>Urgences</option>
                             <option value="Autre hôpital" @selected(old('discharge_destination') === 'Autre hôpital')>Autre hôpital</option>
                             <option value="Domicile" @selected(old('discharge_destination') === 'Domicile')>Domicile</option>
                         </select>

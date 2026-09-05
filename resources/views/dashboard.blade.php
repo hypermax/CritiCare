@@ -86,9 +86,13 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     @if ($h->status === 'active')
-                                        <a href="{{ route('discharges.edit', $h) }}" class="inline-flex items-center px-3 py-1 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-600">
-                                            Sortie
-                                        </a>
+                                        @if (auth()->user()->hasAnyRole(['ADMIN', 'SENIOR', 'JUNIOR']))
+                                            <a href="{{ route('discharges.edit', $h) }}" class="inline-flex items-center px-3 py-1 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-600">
+                                                Sortie
+                                            </a>
+                                        @else
+                                            <span class="text-xs text-gray-400">—</span>
+                                        @endif
                                     @else
                                         <span class="text-xs text-gray-500">
                                             Sorti le {{ $h->discharge_dttm?->format('d/m/Y') }}

@@ -29,6 +29,12 @@ class DischargeController extends Controller
             'discharge_destination' => 'required_if:outcome,transferred|nullable|string|max:100',
         ]);
 
+        if ($validated['outcome'] === 'deceased' && ! $request->user()->hasAnyRole(['ADMIN', 'SENIOR'])) {
+            return back()
+                ->withErrors(['outcome' => 'Seul un médecin senior (ou l’administrateur) peut constater un décès.'])
+                ->withInput();
+        }
+
         $hospitalization->update([
             'status'                => $validated['outcome'],
             'discharge_dttm'        => now(),

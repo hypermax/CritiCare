@@ -13,11 +13,19 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admissions/create', [AdmissionController::class, 'create'])->name('admissions.create');
-    Route::post('/admissions', [AdmissionController::class, 'store'])->name('admissions.store');
+    Route::get('/admissions/create', [AdmissionController::class, 'create'])
+        ->middleware('role:ADMIN,SENIOR,JUNIOR,INTERN,NURSE')
+        ->name('admissions.create');
+    Route::post('/admissions', [AdmissionController::class, 'store'])
+        ->middleware('role:ADMIN,SENIOR,JUNIOR,INTERN,NURSE')
+        ->name('admissions.store');
 
-    Route::get('/hospitalizations/{hospitalization}/discharge', [DischargeController::class, 'edit'])->name('discharges.edit');
-    Route::put('/hospitalizations/{hospitalization}/discharge', [DischargeController::class, 'update'])->name('discharges.update');
+    Route::get('/hospitalizations/{hospitalization}/discharge', [DischargeController::class, 'edit'])
+        ->middleware('role:ADMIN,SENIOR,JUNIOR')
+        ->name('discharges.edit');
+    Route::put('/hospitalizations/{hospitalization}/discharge', [DischargeController::class, 'update'])
+        ->middleware('role:ADMIN,SENIOR,JUNIOR')
+        ->name('discharges.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
