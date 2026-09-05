@@ -18,6 +18,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::middleware('auth')->group(function () {
     Route::get('/patients', [PatientController::class, 'index'])
         ->name('patients.index');
+    Route::get('/patients/lookup', [PatientController::class, 'lookup'])
+        ->name('patients.lookup');
     Route::get('/patients/{patient}', [PatientController::class, 'show'])
         ->name('patients.show');
 
