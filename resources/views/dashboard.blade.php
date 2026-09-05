@@ -72,7 +72,7 @@
                             <tr class="{{ $rowColors[$h->status] ?? '' }}">
                                 <td class="px-4 py-3 font-bold text-lg">{{ $h->bed_number }}</td>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold">{{ $h->patient->full_name }}</div>
+                                    <a href="{{ route('patients.show', $h->patient_id) }}" class="font-semibold text-indigo-600 hover:underline">{{ $h->patient->full_name }}</a>
                                     <div class="text-xs text-gray-500">IPP : {{ $h->patient->record_number }}</div>
                                 </td>
                                 <td class="px-4 py-3">{{ $h->patient->age }} ans / {{ $h->patient->sex_category }}</td>
