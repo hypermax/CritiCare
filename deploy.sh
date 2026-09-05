@@ -2,12 +2,13 @@
 # ============================================================
 # CritiCare — mise à jour de l'application en une commande
 # À lancer depuis le terminal web d'aaPanel (ou SSH) :
-#   bash /www/wwwroot/criticare/deploy.sh
+#   bash /www/wwwroot/192.168.100.27/deploy.sh
+# (le script détecte tout seul le dossier où il se trouve)
 # ============================================================
 
 set -e  # arrêt immédiat si une étape échoue
 
-APP_DIR="/www/wwwroot/criticare"
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # PHP d'aaPanel (adapter "84" si autre version installée via l'App Store)
 PHP_BIN="/www/server/php/84/bin/php"
@@ -15,7 +16,7 @@ PHP_BIN="/www/server/php/84/bin/php"
 
 cd "$APP_DIR"
 
-echo "==> 1/6 Récupération du code (git pull)"
+echo "==> 1/6 Récupération du code (git pull) dans $APP_DIR"
 # Dépôt privé : si le pull échoue en root, utiliser la ligne suivante à la place :
 # sudo -u alili git -c safe.directory="$APP_DIR" -C "$APP_DIR" pull origin main
 git -c safe.directory="$APP_DIR" pull origin main
