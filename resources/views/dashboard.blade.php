@@ -32,6 +32,12 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="mb-4 bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-lg">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div class="bg-white border-l-4 border-green-500 shadow rounded-lg p-4">
                     <div class="text-sm text-gray-500">Hospitalisés</div>
@@ -58,6 +64,7 @@
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Séjour</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnostic</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -77,10 +84,21 @@
                                         {{ $h->status_label }}
                                     </span>
                                 </td>
+                                <td class="px-4 py-3">
+                                    @if ($h->status === 'active')
+                                        <a href="{{ route('discharges.edit', $h) }}" class="inline-flex items-center px-3 py-1 bg-amber-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-amber-600">
+                                            Sortie
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-gray-500">
+                                            Sorti le {{ $h->discharge_dttm?->format('d/m/Y') }}
+                                        </span>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+                                <td colspan="8" class="px-4 py-8 text-center text-gray-500">
                                     Aucune hospitalisation enregistrée pour le moment.
                                 </td>
                             </tr>
