@@ -4,8 +4,8 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Journal d'audit
             </h2>
-            <a href="{{ route('admin.users.index') }}" class="text-sm text-indigo-600 hover:underline">
-                Gestion des utilisateurs &rarr;
+            <a href="{{ route('admin.index') }}" class="text-sm text-indigo-600 hover:underline">
+                &larr; Administration
             </a>
         </div>
     </x-slot>
@@ -18,6 +18,7 @@
             'admission' => 'bg-green-100 text-green-800 border-green-300',
             'discharge' => 'bg-amber-100 text-amber-800 border-amber-300',
             'user'      => 'bg-purple-100 text-purple-800 border-purple-300',
+            'settings'  => 'bg-cyan-100 text-cyan-800 border-cyan-300',
         ];
     @endphp
 

@@ -71,19 +71,9 @@
                         <x-input-label for="discharge_destination" value="Destination (obligatoire si transfert)" />
                         <select id="discharge_destination" name="discharge_destination" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                             <option value="">— Choisir —</option>
-                            <option value="Cardiologie" @selected(old('discharge_destination') === 'Cardiologie')>Cardiologie</option>
-                            <option value="Gynécologie" @selected(old('discharge_destination') === 'Gynécologie')>Gynécologie</option>
-                            <option value="Hématologie" @selected(old('discharge_destination') === 'Hématologie')>Hématologie</option>
-                            <option value="Maladies infectieuses" @selected(old('discharge_destination') === 'Maladies infectieuses')>Maladies infectieuses</option>
-                            <option value="Médecine interne" @selected(old('discharge_destination') === 'Médecine interne')>Médecine interne</option>
-                            <option value="Médecine légale" @selected(old('discharge_destination') === 'Médecine légale')>Médecine légale</option>
-                            <option value="Néonatologie" @selected(old('discharge_destination') === 'Néonatologie')>Néonatologie</option>
-                            <option value="Neurologie" @selected(old('discharge_destination') === 'Neurologie')>Neurologie</option>
-                            <option value="Pédiatrie" @selected(old('discharge_destination') === 'Pédiatrie')>Pédiatrie</option>
-                            <option value="Pneumologie" @selected(old('discharge_destination') === 'Pneumologie')>Pneumologie</option>
-                            <option value="Urgences" @selected(old('discharge_destination') === 'Urgences')>Urgences</option>
-                            <option value="Autre hôpital" @selected(old('discharge_destination') === 'Autre hôpital')>Autre hôpital</option>
-                            <option value="Domicile" @selected(old('discharge_destination') === 'Domicile')>Domicile</option>
+                            @foreach ($destinations as $destination)
+                                <option value="{{ $destination }}" @selected(old('discharge_destination') === $destination)>{{ $destination }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('discharge_destination')" class="mt-1" />
                     </div>

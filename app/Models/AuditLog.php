@@ -71,6 +71,7 @@ class AuditLog extends Model
             'user.role_changed' => 'Rôle modifié',
             'user.password_reset' => 'Mot de passe réinitialisé',
             'user.updated' => 'Compte modifié',
+            'settings.updated' => 'Paramètres modifiés',
             default => $this->action,
         };
     }

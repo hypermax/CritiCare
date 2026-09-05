@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hospitalization;
 use App\Models\Patient;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,11 @@ class AdmissionController extends Controller
             ->pluck('bed_number')
             ->toArray();
 
-        return view('admissions.create', compact('occupiedBeds'));
+        return view('admissions.create', [
+            'occupiedBeds' => $occupiedBeds,
+            'bedCount'     => Setting::nbBeds(),
+            'services'     => Setting::services(),
+        ]);
     }
 
     public function store(Request $request)
@@ -27,7 +32,7 @@ class AdmissionController extends Controller
             'birth_date'          => 'required|date|before:today',
             'sex_category'        => 'required|in:M,F,X',
             'phone'               => 'nullable|string|max:20',
-            'bed_number'          => 'required|integer|min:1|max:20',
+            'bed_number'          => 'required|integer|min:1|max:'.Setting::nbBeds(),
             'admission_diagnosis' => 'nullable|string|max:255',
             'admission_source'    => 'nullable|string|max:100',
         ]);

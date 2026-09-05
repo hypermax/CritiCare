@@ -61,7 +61,7 @@
                             <x-input-label for="bed_number" value="Lit *" />
                             <select id="bed_number" name="bed_number" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                                 <option value="">— Choisir —</option>
-                                @for ($i = 1; $i <= 20; $i++)
+                                @for ($i = 1; $i <= $bedCount; $i++)
                                     <option value="{{ $i }}" @disabled(in_array($i, $occupiedBeds)) @selected(old('bed_number') == $i)>
                                         Lit {{ $i }}{{ in_array($i, $occupiedBeds) ? ' — occupé' : '' }}
                                     </option>
@@ -73,17 +73,9 @@
                             <x-input-label for="admission_source" value="Provenance" />
                             <select id="admission_source" name="admission_source" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option value="">— Choisir —</option>
-                                <option value="Cardiologie" @selected(old('admission_source') === 'Cardiologie')>Cardiologie</option>
-                                <option value="Gynécologie" @selected(old('admission_source') === 'Gynécologie')>Gynécologie</option>
-                                <option value="Hématologie" @selected(old('admission_source') === 'Hématologie')>Hématologie</option>
-                                <option value="Maladies infectieuses" @selected(old('admission_source') === 'Maladies infectieuses')>Maladies infectieuses</option>
-                                <option value="Médecine interne" @selected(old('admission_source') === 'Médecine interne')>Médecine interne</option>
-                                <option value="Médecine légale" @selected(old('admission_source') === 'Médecine légale')>Médecine légale</option>
-                                <option value="Néonatologie" @selected(old('admission_source') === 'Néonatologie')>Néonatologie</option>
-                                <option value="Neurologie" @selected(old('admission_source') === 'Neurologie')>Neurologie</option>
-                                <option value="Pédiatrie" @selected(old('admission_source') === 'Pédiatrie')>Pédiatrie</option>
-                                <option value="Pneumologie" @selected(old('admission_source') === 'Pneumologie')>Pneumologie</option>
-                                <option value="Urgences" @selected(old('admission_source') === 'Urgences')>Urgences</option>
+                                @foreach ($services as $service)
+                                    <option value="{{ $service }}" @selected(old('admission_source') === $service)>{{ $service }}</option>
+                                @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('admission_source')" class="mt-1" />
                         </div>

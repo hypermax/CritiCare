@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hospitalization;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class DischargeController extends Controller
@@ -14,7 +15,10 @@ class DischargeController extends Controller
                 ->with('error', 'Cette hospitalisation est déjà clôturée.');
         }
 
-        return view('discharges.edit', compact('hospitalization'));
+        return view('discharges.edit', [
+            'hospitalization' => $hospitalization,
+            'destinations'    => array_merge(Setting::services(), ['Autre hôpital', 'Domicile']),
+        ]);
     }
 
     public function update(Request $request, Hospitalization $hospitalization)

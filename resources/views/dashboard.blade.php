@@ -18,6 +18,11 @@
                 Patients en réanimation
             </h2>
             <div class="flex items-center gap-4">
+                @if(auth()->user()->hasRole('ADMIN'))
+                    <a href="{{ route('admin.index') }}" class="text-sm font-semibold text-gray-500 hover:text-gray-800 hover:underline">
+                        Administration
+                    </a>
+                @endif
                 <a href="{{ route('patients.index') }}" class="text-sm font-semibold text-indigo-600 hover:underline">
                     Archives &amp; recherche
                 </a>

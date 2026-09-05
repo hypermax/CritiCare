@@ -33,6 +33,8 @@
 | `hospital_diagnosis` / `patient_procedures` | Diagnostics/procédures codés (CIM-10) | 🔵 Plus tard |
 | `code_status` | Limitations thérapeutiques | 🔵 Plus tard |
 
+Tables applicatives **hors périmètre CLIF** (jamais exportées) : `audit_logs` (traçabilité), `settings` (paramétrage du service : nom hôpital/service, nombre de lits, listes de services).
+
 ## 3. Correspondance schéma CritiCare ↔ CLIF
 
 ### `patients` ↔ table CLIF `patient`
@@ -52,8 +54,8 @@
 | `id` | `hospitalization_id` | Identifiant du séjour de réanimation |
 | `admission_dttm` | `admission_dttm` | Identique (entrée en réanimation) |
 | `discharge_dttm` | `discharge_dttm` | Identique (sortie de réanimation) |
-| `admission_source` (11 services) | `admission_type_name` | Libellé brut conservé tel quel |
-| — | `admission_type_category` | À dériver : mapping des 11 services + admissions directes vers les catégories mCIDE |
+| `admission_source` (services paramétrables) | `admission_type_name` | Libellé brut conservé tel quel ; liste éditée dans /admin/settings |
+| — | `admission_type_category` | À dériver : mapping des services + admissions directes vers les catégories mCIDE |
 | `status` / `discharge_destination` | `discharge_category` | Mapping ci-dessous |
 | `death_cause` | — | Champ local sans équivalent CLIF 2.1.0 : texte libre obligatoire si décès ; pourra alimenter `hospital_diagnosis` |
 | `bed_number` | `adt.location_name` | Avec `location_category = "icu"` |
