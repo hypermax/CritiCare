@@ -1,12 +1,36 @@
+@php
+    $statusColors = [
+        'active'      => 'bg-green-100 text-green-800 border-green-300',
+        'deceased'    => 'bg-red-100 text-red-800 border-red-300',
+        'transferred' => 'bg-blue-100 text-blue-800 border-blue-300',
+    ];
+    $rowColors = [
+        'active'      => 'bg-green-50',
+        'deceased'    => 'bg-red-50',
+        'transferred' => 'bg-blue-50',
+    ];
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Patients en réanimation
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Patients en réanimation
+            </h2>
+            <a href="{{ route('admissions.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500">
+                + Nouvelle admission
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            @if (session('success'))
+                <div class="mb-4 bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div class="bg-white border-l-4 border-green-500 shadow rounded-lg p-4">
@@ -46,7 +70,7 @@
                                 </td>
                                 <td class="px-4 py-3">{{ $h->patient->age }} ans / {{ $h->patient->sex_category }}</td>
                                 <td class="px-4 py-3">{{ $h->admission_dttm->format('d/m/Y H:i') }}</td>
-                                <td class="px-4 py-3">J{{ $h->admission_dttm->diffInDays(now()) + 1 }}</td>
+                                <td class="px-4 py-3">J{{ (int) $h->admission_dttm->diffInDays(now()) + 1 }}</td>
                                 <td class="px-4 py-3">{{ $h->admission_diagnosis ?? '—' }}</td>
                                 <td class="px-4 py-3">
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $statusColors[$h->status] ?? 'bg-gray-100 text-gray-800 border-gray-300' }}">

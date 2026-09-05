@@ -19,18 +19,6 @@ class DashboardController extends Controller
             'deceased'    => $hospitalizations->where('status', 'deceased')->count(),
         ];
 
-        $statusColors = [
-            'active'      => 'bg-green-100 text-green-800 border-green-300',
-            'deceased'    => 'bg-red-100 text-red-800 border-red-300',
-            'transferred' => 'bg-blue-100 text-blue-800 border-blue-300',
-        ];
-
-        $rowColors = [
-            'active'      => 'bg-green-50',
-            'deceased'    => 'bg-red-50',
-            'transferred' => 'bg-blue-50',
-        ];
-
-        return view('dashboard', compact('hospitalizations', 'stats', 'statusColors', 'rowColors'));
+        return view('dashboard', compact('hospitalizations', 'stats'));
     }
 }
