@@ -21,7 +21,7 @@
 | `patient` | Démographie invariante | ✅ Existe (`patients`) |
 | `hospitalization` | Une ligne par séjour | ✅ Existe (`hospitalizations`) |
 | `adt` | Mouvements (lit, unité, entrée/sortie) | 🔶 Partiel : `bed_number` porté par `hospitalizations` ; table `adt` dédiée à créer quand changement de lit en cours de séjour |
-| `vitals` | Signes vitaux horodatés | ⏳ Prochain chantier après la fiche patient |
+| `vitals` | Signes vitaux horodatés | ⏳ Prochain chantier |
 | `respiratory_support` | Ventilation (device, mode, FiO2, PEEP…) | ⏳ Planifié |
 | `medication_admin_continuous` | Perfusion continue (catécholamines, sédation) | ⏳ Planifié |
 | `medication_admin_intermittent` | Doses discrètes (ATB, bolus) | ⏳ Planifié |
@@ -55,6 +55,7 @@
 | `admission_source` (11 services) | `admission_type_name` | Libellé brut conservé tel quel |
 | — | `admission_type_category` | À dériver : mapping des 11 services + admissions directes vers les catégories mCIDE |
 | `status` / `discharge_destination` | `discharge_category` | Mapping ci-dessous |
+| `death_cause` | — | Champ local sans équivalent CLIF 2.1.0 : texte libre obligatoire si décès ; pourra alimenter `hospital_diagnosis` |
 | `bed_number` | `adt.location_name` | Avec `location_category = "icu"` |
 | — | `age_at_admission` | Calculé à l'export depuis `birth_date` |
 

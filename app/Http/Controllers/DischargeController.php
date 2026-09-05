@@ -27,6 +27,7 @@ class DischargeController extends Controller
         $validated = $request->validate([
             'outcome'               => 'required|in:transferred,deceased',
             'discharge_destination' => 'required_if:outcome,transferred|nullable|string|max:100',
+            'death_cause'           => 'required_if:outcome,deceased|nullable|string|max:500',
         ]);
 
         if ($validated['outcome'] === 'deceased' && ! $request->user()->hasAnyRole(['ADMIN', 'SENIOR'])) {
@@ -35,13 +36,16 @@ class DischargeController extends Controller
                 ->withInput();
         }
 
-        $hospitalization->update([
-            'status'                => $validated['outcome'],
-            'discharge_dttm'        => now(),
-            'discharge_destination' => $validated['outcome'] === 'transferred'
-                ? $validated['discharge_destination']
-                : null,
-        ]);
+        // Assignation explicite : fonctionne même si death_cause n'est pas dans $fillable
+        $hospitalization->status = $validated['outcome'];
+        $hospitalization->discharge_dttm = now();
+        $hospitalization->discharge_destination = $validated['outcome'] === 'transferred'
+            ? $validated['discharge_destination']
+            : null;
+        $hospitalization->death_cause = $validated['outcome'] === 'deceased'
+            ? $validated['death_cause']
+            : null;
+        $hospitalization->save();
 
         $label = $validated['outcome'] === 'transferred' ? 'transféré' : 'décédé';
 

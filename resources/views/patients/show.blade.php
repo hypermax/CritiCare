@@ -17,10 +17,23 @@
             'transferred' => 'bg-blue-100 text-blue-800 border-blue-300',
             'deceased'    => 'bg-red-100 text-red-800 border-red-300',
         ];
+        $deceasedStay = $patient->hospitalizations->firstWhere('status', 'deceased');
     @endphp
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            {{-- Bandeau décès (prioritaire) --}}
+            @if($deceasedStay)
+                <div class="bg-red-50 border border-red-300 rounded-lg p-4">
+                    <p class="font-semibold text-red-800">
+                        Patient décédé le {{ $deceasedStay->discharge_dttm?->format('d/m/Y') ?? '—' }}
+                    </p>
+                    @if($deceasedStay->death_cause)
+                        <p class="text-sm text-red-700">Cause : {{ $deceasedStay->death_cause }}</p>
+                    @endif
+                </div>
+            @endif
 
             {{-- Bandeau séjour actif --}}
             @if($activeStay)
@@ -137,7 +150,9 @@
                                     <td class="pr-4">{{ $stay->admission_diagnosis }}</td>
                                     <td class="pr-4">
                                         {{ $stay->admission_source }}
-                                        @if($stay->discharge_destination)
+                                        @if($stay->status === 'deceased' && $stay->death_cause)
+                                            <br><span class="text-xs text-red-700">Décès : {{ $stay->death_cause }}</span>
+                                        @elseif($stay->discharge_destination)
                                             &rarr; {{ $stay->discharge_destination }}
                                         @endif
                                     </td>

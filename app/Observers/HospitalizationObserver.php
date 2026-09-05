@@ -39,6 +39,7 @@ class HospitalizationObserver
                 'ipp' => $hospitalization->patient->record_number,
                 'lit' => $hospitalization->bed_number,
                 'destination' => $hospitalization->discharge_destination,
+                'cause_deces' => $isDeceased ? $hospitalization->death_cause : null,
                 'duree_jours' => (int) $hospitalization->admission_dttm
                     ->diffInDays($hospitalization->discharge_dttm ?? now()) + 1,
             ]

@@ -66,7 +66,8 @@
                         <x-input-error :messages="$errors->get('outcome')" class="mt-1" />
                     </div>
 
-                    <div class="mb-6">
+                    {{-- Destination : visible sauf si décès --}}
+                    <div class="mb-6 {{ old('outcome') === 'deceased' ? 'hidden' : '' }}" id="destination-block">
                         <x-input-label for="discharge_destination" value="Destination (obligatoire si transfert)" />
                         <select id="discharge_destination" name="discharge_destination" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                             <option value="">— Choisir —</option>
@@ -87,6 +88,15 @@
                         <x-input-error :messages="$errors->get('discharge_destination')" class="mt-1" />
                     </div>
 
+                    {{-- Cause de décès : visible uniquement si décès --}}
+                    <div class="mb-6 {{ old('outcome') === 'deceased' ? '' : 'hidden' }}" id="death-cause-block">
+                        <x-input-label for="death_cause" value="Cause de décès (obligatoire si décès)" />
+                        <textarea id="death_cause" name="death_cause" rows="3" maxlength="500"
+                                  class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                  placeholder="Ex. : choc septique réfractaire, AVC ischémique étendu…">{{ old('death_cause') }}</textarea>
+                        <x-input-error :messages="$errors->get('death_cause')" class="mt-1" />
+                    </div>
+
                     <div class="bg-amber-50 border border-amber-300 text-amber-800 px-4 py-3 rounded-lg mb-6 text-sm">
                         Cette action clôture définitivement l’hospitalisation. Vérifiez le devenir avant de valider.
                     </div>
@@ -104,4 +114,28 @@
 
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const radios     = document.querySelectorAll('input[name="outcome"]');
+            const destBlock  = document.getElementById('destination-block');
+            const destSelect = document.getElementById('discharge_destination');
+            const deathBlock = document.getElementById('death-cause-block');
+            const deathInput = document.getElementById('death_cause');
+
+            function toggleFields() {
+                const checked = document.querySelector('input[name="outcome"]:checked');
+                const value   = checked ? checked.value : null;
+
+                destBlock.classList.toggle('hidden', value === 'deceased');
+                deathBlock.classList.toggle('hidden', value !== 'deceased');
+
+                destSelect.required = (value !== 'deceased');
+                deathInput.required = (value === 'deceased');
+            }
+
+            radios.forEach(radio => radio.addEventListener('change', toggleFields));
+            toggleFields();
+        });
+    </script>
 </x-app-layout>

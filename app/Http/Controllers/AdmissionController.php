@@ -32,6 +32,15 @@ class AdmissionController extends Controller
             'admission_source'    => 'nullable|string|max:100',
         ]);
 
+        // Garde-fou : un patient décédé lors d'un séjour précédent ne peut pas être réadmis
+        $existingPatient = Patient::where('record_number', $validated['record_number'])->first();
+
+        if ($existingPatient && $existingPatient->hospitalizations()->where('status', 'deceased')->exists()) {
+            return back()
+                ->withErrors(['record_number' => 'Admission impossible : ce patient est décédé lors d’un séjour précédent. Vérifiez l’IPP.'])
+                ->withInput();
+        }
+
         $bedTaken = Hospitalization::where('bed_number', $validated['bed_number'])
             ->where('status', 'active')
             ->exists();
