@@ -71,6 +71,7 @@
                             <x-input-label for="admission_source" value="Provenance" />
                             <select id="admission_source" name="admission_source" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option value="">— Choisir —</option>
+                                <option value="Maladies infectieuses" @selected(old('admission_source') === 'Maladies infectieuses')>Maladies infectieuses</option>
                                 <option value="Urgences" @selected(old('admission_source') === 'Urgences')>Urgences</option>
                                 <option value="Bloc opératoire" @selected(old('admission_source') === 'Bloc opératoire')>Bloc opératoire</option>
                                 <option value="Médecine" @selected(old('admission_source') === 'Médecine')>Médecine</option>
