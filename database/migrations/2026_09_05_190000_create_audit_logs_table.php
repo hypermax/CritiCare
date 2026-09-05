@@ -8,6 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Garde-fou : ne rien faire si la table existe déjà
+        // (la migration de réparation 2026_09_05_185000 l'a peut-être recréée)
+        if (Schema::hasTable('audit_logs')) {
+            return;
+        }
+
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
