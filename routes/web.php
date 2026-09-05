@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditLogController as AdminAuditLogController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\DashboardController;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
         Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+        Route::get('/audit', [AdminAuditLogController::class, 'index'])->name('audit.index');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

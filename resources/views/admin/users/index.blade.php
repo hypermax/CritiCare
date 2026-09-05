@@ -4,9 +4,14 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Gestion des utilisateurs
             </h2>
-            <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500">
-                + Nouveau compte
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.audit.index') }}" class="text-sm font-semibold text-indigo-600 hover:underline">
+                    Journal d'audit
+                </a>
+                <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500">
+                    + Nouveau compte
+                </a>
+            </div>
         </div>
     </x-slot>
 
