@@ -15,6 +15,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/patients', [PatientController::class, 'index'])
+        ->name('patients.index');
     Route::get('/patients/{patient}', [PatientController::class, 'show'])
         ->name('patients.show');
 
