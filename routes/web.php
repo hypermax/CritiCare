@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DischargeController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/patients/{patient}', [PatientController::class, 'show'])
+        ->name('patients.show');
+
     Route::get('/admissions/create', [AdmissionController::class, 'create'])
         ->middleware('role:ADMIN,SENIOR,JUNIOR,INTERN,NURSE')
         ->name('admissions.create');
