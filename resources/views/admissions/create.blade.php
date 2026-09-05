@@ -71,12 +71,17 @@
                             <x-input-label for="admission_source" value="Provenance" />
                             <select id="admission_source" name="admission_source" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <option value="">— Choisir —</option>
-                                <option value="Maladies infectieuses" @selected(old('admission_source') === 'Maladies infectieuses')>Maladies infectieuses</option>
-                                <option value="Urgences" @selected(old('admission_source') === 'Urgences')>Urgences</option>
-                                <option value="Bloc opératoire" @selected(old('admission_source') === 'Bloc opératoire')>Bloc opératoire</option>
-                                <option value="Médecine" @selected(old('admission_source') === 'Médecine')>Médecine</option>
-                                <option value="Chirurgie" @selected(old('admission_source') === 'Chirurgie')>Chirurgie</option>
-                                <option value="Autre hôpital" @selected(old('admission_source') === 'Autre hôpital')>Autre hôpital</option>
+<option value="Cardiologie" @selected(old('admission_source') === 'Cardiologie')>Cardiologie</option>
+<option value="Gynécologie" @selected(old('admission_source') === 'Gynécologie')>Gynécologie</option>
+<option value="Hématologie" @selected(old('admission_source') === 'Hématologie')>Hématologie</option>
+<option value="Maladies infectieuses" @selected(old('admission_source') === 'Maladies infectieuses')>Maladies infectieuses</option>
+<option value="Médecine interne" @selected(old('admission_source') === 'Médecine interne')>Médecine interne</option>
+<option value="Médecine légale" @selected(old('admission_source') === 'Médecine légale')>Médecine légale</option>
+<option value="Néonatologie" @selected(old('admission_source') === 'Néonatologie')>Néonatologie</option>
+<option value="Neurologie" @selected(old('admission_source') === 'Neurologie')>Neurologie</option>
+<option value="Pédiatrie" @selected(old('admission_source') === 'Pédiatrie')>Pédiatrie</option>
+<option value="Pneumologie" @selected(old('admission_source') === 'Pneumologie')>Pneumologie</option>
+<option value="Urgences" @selected(old('admission_source') === 'Urgences')>Urgences</option>
                             </select>
                             <x-input-error :messages="$errors->get('admission_source')" class="mt-1" />
                         </div>
