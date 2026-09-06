@@ -17,7 +17,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                         <div>
                             <x-input-label for="record_number" value="N° IPP *" />
-                            <x-text-input id="record_number" name="record_number" type="text" class="mt-1 block w-full" :value="old('record_number')" required />
+                            <x-text-input id="record_number" name="record_number" type="text" class="mt-1 block w-full" :value="old('record_number', request('record_number'))" required />
                             <x-input-error :messages="$errors->get('record_number')" class="mt-1" />
                             <p class="mt-1 text-xs text-gray-500">Patient déjà passé en réanimation ? Saisissez l'IPP puis Tab : ses informations seront préremplies.</p>
                             <p id="ipp-status" class="mt-1 text-sm"></p>
@@ -95,7 +95,6 @@
                         </x-primary-button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -144,6 +143,12 @@
                     // Réseau indisponible : le garde-fou côté serveur reste en place
                 }
             });
+
+            // Réadmission depuis la fiche patient : l'IPP est déjà rempli via l'URL,
+            // on déclenche le préremplissage existant automatiquement.
+            if (ippInput.value.trim() !== '') {
+                ippInput.dispatchEvent(new Event('blur'));
+            }
         });
     </script>
 </x-app-layout>
