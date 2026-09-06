@@ -46,6 +46,17 @@ class AdmissionController extends Controller
                 ->withInput();
         }
 
+        // Garde-fou : un patient déjà hospitalisé ne peut pas avoir deux séjours actifs simultanés
+        if ($existingPatient) {
+            $activeStay = $existingPatient->hospitalizations()->where('status', 'active')->first();
+
+            if ($activeStay) {
+                return back()
+                    ->withErrors(['record_number' => 'Admission impossible : ce patient a déjà un séjour en cours (lit n° ' . $activeStay->bed_number . '). Clôturez d’abord ce séjour.'])
+                    ->withInput();
+            }
+        }
+
         $bedTaken = Hospitalization::where('bed_number', $validated['bed_number'])
             ->where('status', 'active')
             ->exists();

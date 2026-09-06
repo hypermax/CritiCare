@@ -36,7 +36,7 @@
             @endif
 
             {{-- Bandeau séjour actif --}}
-            @if(! $deceasedStay && ! $activeStay)
+            @if($activeStay)
                 <div class="bg-green-50 border border-green-300 rounded-lg p-4 flex items-center justify-between">
                     <div>
                         <p class="font-semibold text-green-800">
@@ -112,13 +112,17 @@
                             <p class="text-xs text-gray-500">Hospitalisé</p>
                         </div>
                     </div>
-                    @if(! $deceasedStay)
+                    @if(! $deceasedStay && ! $activeStay)
                         <div class="mt-6">
                             <a href="{{ route('admissions.create') }}"
                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500">
                                 + Nouvelle admission
                             </a>
                         </div>
+                    @elseif($activeStay)
+                        <p class="mt-6 text-sm text-gray-500">
+                            Patient actuellement hospitalisé (lit n° {{ $activeStay->bed_number }}) — clôturez le séjour en cours avant toute réadmission.
+                        </p>
                     @endif
                 </div>
             </div>
@@ -149,7 +153,7 @@
                                     <td class="pr-4">
                                         J{{ (int) $stay->admission_dttm->diffInDays($stay->discharge_dttm ?? now()) + 1 }}
                                     </td>
-                                    <td class="pr-4">{{ $stay->admission_diagnosis }}</td>
+                                    <td class="pr-4">{{ $stay->admission_diagnosis ?? '—' }}</td>
                                     <td class="pr-4">
                                         {{ $stay->admission_source }}
                                         @if($stay->status === 'deceased' && $stay->death_cause)
@@ -176,7 +180,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 </x-app-layout>
